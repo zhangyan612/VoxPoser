@@ -68,10 +68,14 @@ if __name__ == '__main__':
     #     print(value)
 
     # check single file
-    with open(os.path.join('cache', '3c381a29b20a42af0d3a8ff4eefeeb7f9d4e7ca6.pkl'), 'rb') as file:
+    with open(os.path.join('cache', '6f11d122d7445d0f9b9e66273bb8de85f527f84c.pkl'), 'rb') as file:
         key, value = pickle.load(file)
-        print(key)
+        # print(key)
+        # for i in key['messages']:
+        #     print(i['content'])
+        value = value.replace("\\", "")
         print(value)
 
-
-
+    # update single file
+    with open(os.path.join('cache', '6f11d122d7445d0f9b9e66273bb8de85f527f84c.pkl'), 'wb') as file:
+        pickle.dump((key, value), file)
