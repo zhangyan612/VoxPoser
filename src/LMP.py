@@ -86,10 +86,12 @@ class LanguageModelProgram:
                 ret = openai.ChatCompletion.create(**kwargs)['choices'][0]['message']['content']
                 # post processing
                 ret = ret.replace('```', '').replace('python', '').strip()
+                ret = ret.replace("\\", "")
                 self._cache[kwargs] = ret
                 return ret
             else:
                 ret = openai.Completion.create(**kwargs)['choices'][0]['text'].strip()
+                ret = ret.replace("\\", "")
                 self._cache[kwargs] = ret
                 return ret
 
