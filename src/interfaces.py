@@ -1,4 +1,4 @@
-from LMP import LMP
+from LMP import LanguageModelProgram
 from utils import get_clock_time, normalize_vector, pointat2quat, bcolors, Observation, VoxelIndexingWrapper
 import numpy as np
 from planners import PathPlanner
@@ -422,19 +422,19 @@ def setup_LMP(env, general_config, debug=False):
   # allow LMPs to access other LMPs
   lmp_names = [name for name in lmps_config.keys() if not name in ['composer', 'planner', 'config']]
   low_level_lmps = {
-      k: LMP(k, lmps_config[k], fixed_vars, variable_vars, debug, env_name)
+      k: LanguageModelProgram(k, lmps_config[k], fixed_vars, variable_vars, debug, env_name)
       for k in lmp_names
   }
   variable_vars.update(low_level_lmps)
 
   # creating the LMP for skill-level composition
-  composer = LMP(
+  composer = LanguageModelProgram(
       'composer', lmps_config['composer'], fixed_vars, variable_vars, debug, env_name
   )
   variable_vars['composer'] = composer
 
   # creating the LMP that deals w/ high-level language commands
-  task_planner = LMP(
+  task_planner = LanguageModelProgram(
       'planner', lmps_config['planner'], fixed_vars, variable_vars, debug, env_name
   )
 
