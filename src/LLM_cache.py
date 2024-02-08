@@ -52,14 +52,20 @@ class DiskCache:
 
 
 if __name__ == '__main__':
-    cache = DiskCache()
-    cache_key = {'id': 1, 'name': 'John'}
-    cache[cache_key] = 'value1'
+    # cache = DiskCache()
+    # cache_key = {'id': 1, 'name': 'John'}
+    # cache[cache_key] = 'value1'
 
-    print(cache)  # {"{'id': 1, 'name': 'John'}": 'value1'}
+    # print(cache)  # {"{'id': 1, 'name': 'John'}": 'value1'}
 
     # When you restart your program, the cache will load the previous key-value pairs
+    # visualize cache
     cache2 = DiskCache()
-    print(cache2)  # {"{'id': 1, 'name': 'John'}": 'value1'}
+    # print(cache2)  # {"{'id': 1, 'name': 'John'}": 'value1'}
+    # print(cache2[{"id": 1, "name": "John"}])  # {"{'id': 1, 'name': 'John'}": 'value1'}
+    for key, value in cache2.data.items():
+        print(key)
+        print(value)
+
 
 
