@@ -67,6 +67,12 @@ if __name__ == '__main__':
     #     print(key)
     #     print(value)
 
+    for filename in os.listdir('cache'):
+        with open(os.path.join('cache', filename), 'rb') as file:
+            key, value = pickle.load(file)
+            print(filename)
+            print(value)
+
     # check single file
     with open(os.path.join('cache', '6f11d122d7445d0f9b9e66273bb8de85f527f84c.pkl'), 'rb') as file:
         key, value = pickle.load(file)
