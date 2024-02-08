@@ -60,10 +60,16 @@ if __name__ == '__main__':
 
     # When you restart your program, the cache will load the previous key-value pairs
     # visualize cache
-    cache2 = DiskCache()
-    # print(cache2)  # {"{'id': 1, 'name': 'John'}": 'value1'}
-    # print(cache2[{"id": 1, "name": "John"}])  # {"{'id': 1, 'name': 'John'}": 'value1'}
-    for key, value in cache2.data.items():
+    # cache2 = DiskCache()
+    # # print(cache2)  # {"{'id': 1, 'name': 'John'}": 'value1'}
+    # # print(cache2[{"id": 1, "name": "John"}])  # {"{'id': 1, 'name': 'John'}": 'value1'}
+    # for key, value in cache2.data.items():
+    #     print(key)
+    #     print(value)
+
+    # check single file
+    with open(os.path.join('cache', '3c381a29b20a42af0d3a8ff4eefeeb7f9d4e7ca6.pkl'), 'rb') as file:
+        key, value = pickle.load(file)
         print(key)
         print(value)
 
