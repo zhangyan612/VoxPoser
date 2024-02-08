@@ -17,7 +17,7 @@ class LanguageModelProgram:
         self._name = name
         self._config = config
         self._debug = debug
-        self._base_prompt = load_prompt(f"{env}/{config['prompt_filename']}.txt")
+        self._base_prompt = load_prompt(f"{env}/{config['prompt_fname']}.txt")
         self._stop_tokens = list(config['stop'])
         self._fixed_variables = fixed_variables
         self._variable_vars = variable_vars

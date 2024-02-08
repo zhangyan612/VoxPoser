@@ -11,8 +11,8 @@ openai.api_key = None  # set your API key here
 
 config = get_config('rlbench')
 # uncomment this if you'd like to change the language model (e.g., for faster speed or lower cost)
-# for lmp_name, cfg in config['lmp_config']['lmps'].items():
-#     cfg['model'] = 'gpt-3.5-turbo'
+for lmp_name, cfg in config['lmp_config']['lmps'].items():
+    cfg['model'] = 'mixtral-8x7b'
 
 # initialize env and voxposer ui
 visualizer = ValueMapVisualizer(config['visualizer'])
