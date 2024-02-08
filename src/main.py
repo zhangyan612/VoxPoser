@@ -41,5 +41,5 @@ descriptions, obs = env.reset()
 set_lmp_objects(lang_model_programs, env.get_object_names())  # set the object names to be used by voxposer
 
 instruction = np.random.choice(descriptions)
-print(instruction)
-# voxposer_ui(instruction)
+# print(instruction)
+voxposer_ui(instruction)

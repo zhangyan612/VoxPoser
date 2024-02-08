@@ -55,7 +55,7 @@ class LanguageModelProgram:
         user1 = kwargs.pop('prompt')
         new_query = '# Query:' + user1.split('# Query:')[-1]
         user1 = ''.join(user1.split('# Query:')[:-1]).strip()
-        user1 = f"I would like you to help me write Python code to control a robot arm operating in a tabletop environment. Please complete the code every time when I give you new query. Pay attention to appeared patterns in the given context code. Be thorough and thoughtful in your code. Do not include any import statement. Do not repeat my question. Do not provide any text explanation (comment in code is okay). I will first give you the context of the code below:\n\n```\n{user1}\n```\n\nNote that x is back to front, y is left to right, and z is bottom to up. Please note \n is the line break."
+        user1 = f"I would like you to help me write Python code to control a robot arm operating in a tabletop environment. Please complete the code every time when I give you new query. Pay attention to appeared patterns in the given context code. Be thorough and thoughtful in your code. Do not include any import statement. Do not repeat my question. Do not provide any text explanation (comment in code is okay). I will first give you the context of the code below:\n\n```\n{user1}\n```\n\nNote that x is back to front, y is left to right, and z is bottom to up. Please note \n is the line break. Do not add \ in the result"
         assistant1 = f'Got it. I will complete what you give me next.'
         user2 = new_query
         # handle given context (this was written originally for completion endpoint)
