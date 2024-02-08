@@ -49,12 +49,13 @@ class LanguageModelProgram:
 
         return prompt, user_query
     
-    def _call_llm(self, **kwargs):
+    def update_prompt_message(self, **kwargs):
         # add special prompt for chat endpoint
+        print('construct prompt')
         user1 = kwargs.pop('prompt')
         new_query = '# Query:' + user1.split('# Query:')[-1]
         user1 = ''.join(user1.split('# Query:')[:-1]).strip()
-        user1 = f"I would like you to help me write Python code to control a robot arm operating in a tabletop environment. Please complete the code every time when I give you new query. Pay attention to appeared patterns in the given context code. Be thorough and thoughtful in your code. Do not include any import statement. Do not repeat my question. Do not provide any text explanation (comment in code is okay). I will first give you the context of the code below:\n\n```\n{user1}\n```\n\nNote that x is back to front, y is left to right, and z is bottom to up."
+        user1 = f"I would like you to help me write Python code to control a robot arm operating in a tabletop environment. Please complete the code every time when I give you new query. Pay attention to appeared patterns in the given context code. Be thorough and thoughtful in your code. Do not include any import statement. Do not repeat my question. Do not provide any text explanation (comment in code is okay). I will first give you the context of the code below:\n\n```\n{user1}\n```\n\nNote that x is back to front, y is left to right, and z is bottom to up. Please note \n is the line break."
         assistant1 = f'Got it. I will complete what you give me next.'
         user2 = new_query
         # handle given context (this was written originally for completion endpoint)
@@ -71,24 +72,22 @@ class LanguageModelProgram:
             {"role": "user", "content": user2},
         ]
         kwargs['messages'] = messages
+        return kwargs
+
+
+    def _cached_api_call(self, **kwargs):
+        # check whether completion endpoint or chat endpoint is used
         if kwargs in self._cache:
             print('(using cache)', end=' ')
             return self._cache[kwargs]
         else:
-            ret = openai.ChatCompletion.create(**kwargs)['choices'][0]['message']['content']
-            # post processing
-            ret = ret.replace('```', '').replace('python', '').strip()
-            self._cache[kwargs] = ret
-            return ret
-
-    def _cached_api_call(self, **kwargs):
-        # check whether completion endpoint or chat endpoint is used
-        if kwargs['model'] != 'gpt-3.5-turbo-instruct' and any([chat_model in kwargs['model'] for chat_model in ['gpt-3.5', 'gpt-4']]):
-            self._call_llm(**kwargs)
-        else:
-            if kwargs in self._cache:
-                print('(using cache)', end=' ')
-                return self._cache[kwargs]
+            if kwargs['model'] != 'gpt-3.5-turbo-instruct' and any([chat_model in kwargs['model'] for chat_model in ['gpt-3.5', 'gpt-4', 'mixtral-8x7b']]):
+                kwargs = self.update_prompt_message(**kwargs)
+                ret = openai.ChatCompletion.create(**kwargs)['choices'][0]['message']['content']
+                # post processing
+                ret = ret.replace('```', '').replace('python', '').strip()
+                self._cache[kwargs] = ret
+                return ret
             else:
                 ret = openai.Completion.create(**kwargs)['choices'][0]['text'].strip()
                 self._cache[kwargs] = ret

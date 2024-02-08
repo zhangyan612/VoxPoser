@@ -3,6 +3,8 @@ import os
 import numpy as np
 from src.arguments import get_config
 from src.visualizers import ValueMapVisualizer
+from src.utils import load_prompt
+# from src.LMP import LanguageModelProgram
 
 class TestGetConfig(unittest.TestCase):
     def setUp(self):
@@ -40,6 +42,17 @@ class TestGetConfig(unittest.TestCase):
     #     # Just test visualize runs without error
     #     self.assertTrue(True) 
 
+    def test_load_prompt_with_valid_file(self):
+        # Test the function with the valid file name
+        result = load_prompt("rlbench\composer_prompt.txt")
+        print(result)
+        # self.assertEqual(result, expected_contents)
+
+    # def test_update_prompt_message(self):
+    #     LanguageModelProgram.build_prompt()
+        # print(result)
+
+        # self.assertEqual(result, expected_contents)
 
 if __name__ == '__main__':
     unittest.main()

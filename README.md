@@ -74,3 +74,24 @@ Environment and utilities:
 - Implementation of Language Model Programs (LMPs) is based on [Code as Policies](https://code-as-policies.github.io/).
 - Some code snippets are from [Where2Act](https://cs.stanford.edu/~kaichun/where2act/).
 - Additional acknowledgement to GitHub Copilot and GPT-4 for collaboratively writing a significant portion of the code in this codebase.
+
+
+
+
+summary of how the main code works:
+
+Load configuration from file using get_config(). This returns a ConfigDict that allows accessing config through attributes.
+Initialize the ValueMapVisualizer with the config.
+Initialize the VoxPoserRLBench environment with the visualizer. This launches the RLBench scene.
+Set up the LMP and voxposer UI using the setup_LMP() function. Passes the env and config.
+Load a task into the environment using env.load_task(). This resets task variables and records object IDs.
+Reset the environment with env.reset(). This samples a variation and returns descriptions and observations.
+Set the object names in the LMP using set_lmp_objects(). This maps instruction object references to environment objects.
+Pick a random instruction and pass to the voxposer UI to generate a plan.
+So in summary, it:
+
+Configures the environment, LMP, and visualizer
+Loads a task and resets the environment
+Sets object name mapping for the LMP
+Passes an instruction to the LMP to generate a plan
+The key steps are setting up the components, loading the task, resetting the environment, and mapping object names before passing instructions to the LMP.
