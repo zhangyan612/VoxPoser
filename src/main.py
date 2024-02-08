@@ -6,8 +6,13 @@ from envs.rlbench_env import VoxPoserRLBench
 from utils import set_lmp_objects
 import numpy as np
 from rlbench import tasks
+import configparser
 
-openai.api_key = None  # set your API key here
+config = configparser.ConfigParser()
+config.read('.env')
+
+openai.api_base = config.get('openai', 'base_url')
+openai.api_key = config.get('openai', 'api_key')
 
 config = get_config('rlbench')
 # uncomment this if you'd like to change the language model (e.g., for faster speed or lower cost)
