@@ -73,7 +73,7 @@ class LanguageModelProgram:
             ]
             kwargs['messages'] = messages
             if kwargs in self._cache:
-                print('(using cache)', end=' ')
+                print('(using cache)\n', end=' ')
                 return self._cache[kwargs]
             else:
                 print(kwargs['messages'])
@@ -85,7 +85,7 @@ class LanguageModelProgram:
                 return ret
         else:
             if kwargs in self._cache:
-                print('(using cache)', end=' ')
+                print('(using cache)\n', end=' ')
                 return self._cache[kwargs]
             else:
                 ret = openai.Completion.create(**kwargs)['choices'][0]['text'].strip()
@@ -188,10 +188,10 @@ def exec_safe(code_str, gvars=None, lvars=None):
         {'exec': empty_fn, 'eval': empty_fn}
     ])
     try:
-        print('code to execute, vars')
+        print('code to execute:')
         print(code_str)
-        print(custom_gvars)
-        print(lvars)
+        # print(custom_gvars)
+        # print(lvars)
 
         exec(code_str, custom_gvars, lvars)
     except Exception as e:
