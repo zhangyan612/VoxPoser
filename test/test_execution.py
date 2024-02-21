@@ -9,10 +9,65 @@ import numpy as np
 
 from interfaces import *
 from LMP import parse_query_obj
-# Query: move ee forward for 10cm.
+
+
+
+
+
+# Grabbing 
+
+ # code to execute:
+objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
+composer("grasp the rubbish")
+composer("move to 20cm above the bin")
+composer("open gripper")
+composer("move to 20cm above the bin")
+composer("close gripper")
+composer("move to 20cm above the bin")
+composer("open gripper")
+
+ # code to execute:
 movable = parse_query_obj('gripper')
-affordance_map = get_affordance_map(f'a point 10cm in front of {movable.position}')
-execute(movable, affordance_map)
+affordance_map = get_affordance_map('a point at the center of the rubbish')
+gripper_map = get_gripper_map('open everywhere except 1cm around the rubbish')
+execute(movable, affordance_map=affordance_map, gripper_map=gripper_map)
+
+ # code to execute:
+def ret_val():
+    objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
+    gripper = detect('gripper')
+    return gripper
+
+ # code to execute:
+def ret_val():
+    affordance_map = get_empty_affordance_map()
+    rubbish = parse_query_obj('rubbish')
+    x, y, z = rubbish.position
+    affordance_map[x, y, z] = 1
+    return affordance_map
+
+ # code to execute:
+def ret_val():
+    # open everywhere except 1cm around the rubbish
+    gripper_map = get_empty_gripper_map()
+    # open everywhere
+    gripper_map[:, :, :] = 1
+    # close when 1cm around the rubbish
+    rubbish = parse_query_obj('rubbish')
+    set_voxel_by_radius(gripper_map, rubbish.position, radius_cm=1, value=0)
+    return gripper_map
+
+ # code to execute:
+def ret_val():
+    objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
+    rubbish = detect('rubbish')
+    return rubbish
+
+ # code to execute:
+def ret_val():
+    objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
+    rubbish = detect('rubbish')
+    return rubbish
 
 # {
 # 'euler2quat': <function euler2quat at 0x7fc809597310>, 
