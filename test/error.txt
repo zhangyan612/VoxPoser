@@ -1,0 +1,60 @@
+(using cache)
+ # code to execute:
+movable = parse_query_obj('gripper')
+affordance_map = get_affordance_map('a point 20cm above the bin')
+execute(movable, affordance_map=affordance_map)
+(using cache)
+ # code to execute:
+def ret_val():
+    objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
+    gripper = detect('gripper')
+    return gripper
+(using cache)
+ # code to execute:
+def ret_val():
+    bin = parse_query_obj('bin')
+    (min_x, min_y, min_z), (max_x, max_y, max_z) = bin.aabb
+    center_x, center_y, center_z = bin.position
+    z = max_z + cm2index(20, 'z')
+    affordance_map[center_x, center_y, z] = 1
+    return affordance_map
+(using cache)
+ # code to execute:
+def ret_val():
+    objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
+    bin = detect('bin')
+    return bin
+Error executing code:
+movable = parse_query_obj('gripper')
+affordance_map = get_affordance_map('a point 20cm above the bin')
+execute(movable, affordance_map=affordance_map)
+Error executing code:
+objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
+composer("grasp the rubbish")
+composer("move to 20cm above the bin")
+composer("open gripper")
+composer("move to 20cm above the bin")
+composer("close gripper")
+composer("move to 20cm above the bin")
+composer("open gripper")
+Traceback (most recent call last):
+  File "/home/yan/VoxPoser/src/main.py", line 45, in <module>
+    voxposer_ui(instruction)
+  File "/home/yan/VoxPoser/src/LMP.py", line 151, in __call__
+    exec_safe(to_exec, gvars, lvars)
+  File "/home/yan/VoxPoser/src/LMP.py", line 199, in exec_safe
+    raise e
+  File "/home/yan/VoxPoser/src/LMP.py", line 196, in exec_safe
+    exec(code_str, custom_gvars, lvars)
+  File "<string>", line 3, in <module>
+  File "/home/yan/VoxPoser/src/LMP.py", line 151, in __call__
+    exec_safe(to_exec, gvars, lvars)
+  File "/home/yan/VoxPoser/src/LMP.py", line 199, in exec_safe
+    raise e
+  File "/home/yan/VoxPoser/src/LMP.py", line 196, in exec_safe
+    exec(code_str, custom_gvars, lvars)
+  File "<string>", line 3, in <module>
+  File "/home/yan/VoxPoser/src/interfaces.py", line 108, in execute
+    _affordance_map = affordance_map()
+  File "<string>", line 6, in ret_val
+NameError: name 'affordance_map' is not defined
