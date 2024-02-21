@@ -67,21 +67,22 @@ if __name__ == '__main__':
     #     print(key)
     #     print(value)
 
-    for filename in os.listdir('cache'):
-        with open(os.path.join('cache', filename), 'rb') as file:
-            key, value = pickle.load(file)
-            print(filename)
-            print(value)
+    # for filename in os.listdir('cache'):
+    #     with open(os.path.join('cache', filename), 'rb') as file:
+    #         key, value = pickle.load(file)
+    #         print(filename)
+    #         print(value)
 
     # check single file
-    with open(os.path.join('cache', '6f11d122d7445d0f9b9e66273bb8de85f527f84c.pkl'), 'rb') as file:
+    with open(os.path.join('cache', 'c3a2e21bb61b0b606216af8f5199b8cf3b76d974.pkl'), 'rb') as file:
         key, value = pickle.load(file)
         # print(key)
-        # for i in key['messages']:
-        #     print(i['content'])
-        value = value.replace("\\", "")
+        # print(key['messages'])
+        for i in key['messages']:
+            print(i['content'])
+        # value = value.replace("\\", "")
         print(value)
 
     # update single file
-    with open(os.path.join('cache', '6f11d122d7445d0f9b9e66273bb8de85f527f84c.pkl'), 'wb') as file:
-        pickle.dump((key, value), file)
+    # with open(os.path.join('cache', '6f11d122d7445d0f9b9e66273bb8de85f527f84c.pkl'), 'wb') as file:
+    #     pickle.dump((key, value), file)
