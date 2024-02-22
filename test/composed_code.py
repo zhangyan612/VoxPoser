@@ -12,8 +12,6 @@ from LMP import parse_query_obj
 
 
 
-
-
 # Grabbing 
 
  # code to execute:

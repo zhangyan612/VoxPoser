@@ -95,3 +95,49 @@ Loads a task and resets the environment
 Sets object name mapping for the LMP
 Passes an instruction to the LMP to generate a plan
 The key steps are setting up the components, loading the task, resetting the environment, and mapping object names before passing instructions to the LMP.
+
+# VLM setup
+VLMs and Perception. Given an object/part query from LLMs, we first invoke open-vocab detector
+OWL-ViT [15] to obtain a bounding box, then feed it into Segment Anything [118] to obtain a mask,
+and finally track the mask using video tracker XMEM [119]. The tracked mask is used with RGB-D
+observation to reconstruct the object/part point cloud.
+
+
+detect(obj name): Takes in an object name and returns a list of dictionaries, where each dictionary
+corresponds to one instance of the matching object, containing center position, occupancy grid, and
+mean normal vector.
+
+execute(movable,affordance map,avoidance map,rotation map,velocity map,gripper map):
+Takes in an “entity of interest” as “movable” (a dictionary returned by detect) and (optionally)
+a list of value maps and invokes the motion planner to execute the trajectory. Note that in MPC
+settings, “movable” and the input value maps are functions that can be re-evaluated to reflect the
+latest environment observation.
+
+cm2index(cm,direction): Takes in a desired offset distance in centimeters along direction and
+returns 3-dim vector reflecting displacement in voxel coordinates.
+index2cm(index,direction): Inverse of cm2index. Takes in an integer “index” and a “direction”
+vector and returns the distance in centimeters in world coordinates displaced by the “integer” in
+voxel coordinates.
+
+pointat2quat(vector): Takes in a desired pointing direction for the end-effector and returns a
+satisfying target quaternion.
+
+set voxel by radius(voxel map,voxel xyz,radius cm,value): Assigns “value” to voxels
+within “radious cm” from “voxel xyz” in “voxel map”.
+
+get empty affordance map(): Returns a default affordance map initialized with 0, where a high
+value attracts the entity.
+
+get empty avoidance map(): Returns a default avoidance map initialized with 0, where a high
+value repulses the entity.
+
+get empty rotation map(): Returns a default rotation map initialized with current end-effector
+quaternion.
+
+get empty gripper map(): Returns a default gripper map initialized with current gripper action,
+where 1 indicates “closed” and 0 indicates “open”.
+
+get empty velocity map(): Returns a default affordance map initialized with 1, where the number
+represents scale factor (e.g., 0.5 for half of the default velocity).
+
+reset to default pose(): Reset to robot rest pose
