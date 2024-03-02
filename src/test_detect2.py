@@ -15,9 +15,6 @@ openai.api_base = config.get('openai', 'base_url')
 openai.api_key = config.get('openai', 'api_key')
 
 config = get_config('rlbench')
-# uncomment this if you'd like to change the language model (e.g., for faster speed or lower cost)
-# for lmp_name, cfg in config['lmp_config']['lmps'].items():
-#     cfg['model'] = 'mixtral-8x7b'
 
 # initialize env and voxposer ui
 visualizer = ValueMapVisualizer(config['visualizer'])
@@ -45,27 +42,11 @@ set_lmp_objects(lang_model_programs, env.get_object_names())  # set the object n
 # print(obs)
 # voxposer_ui(instruction)
 
-gripper = lmp_env.detect('gripper')
-# print(gripper)
+def gripper_func():
+    objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
+    gripper = lmp_env.detect('gripper')
+    return gripper
 
-affordance_map = lmp_env.get_empty_affordance_map()
-# print(affordance_map)
-
-rubbish = lmp_env.detect('rubbish')
-x, y, z = rubbish.position
-affordance_map[x, y, z] = 1
-
-gripper_map = lmp_env.get_empty_gripper_map()
-# open everywhere
-gripper_map[:, :, :] = 1
-# close when 1cm around the rubbish
-# print(gripper_map)
-
-# TypeError: 'VoxelIndexingWrapper' object is not callable
-
-rubbish = lmp_env.detect('rubbish')
-voxal_map = lmp_env.set_voxel_by_radius(gripper_map, rubbish.position, radius_cm=1, value=0)
-# print(voxal_map)
 
 def affordance_map_func():
     affordance_map = lmp_env.get_empty_affordance_map()
@@ -84,16 +65,8 @@ def gripper_map_func():
     lmp_env.set_voxel_by_radius(gripper_map, rubbish.position, radius_cm=1, value=0)
     return gripper_map
 
-# def ret_val():
-#     objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
-#     rubbish = detect('rubbish')
-#     return rubbish
-def ret_val():
-    objects = ['bin', 'rubbish', 'tomato1', 'tomato2']
-    rubbish = lmp_env.detect('rubbish')
-    return rubbish
 
-lmp_env.execute(ret_val, affordance_map=affordance_map_func, gripper_map=gripper_map_func)
+lmp_env.execute(gripper_func, affordance_map=affordance_map_func, gripper_map=gripper_map_func)
 
 # execute
 # cm2index
