@@ -75,6 +75,12 @@ Environment and utilities:
 - Some code snippets are from [Where2Act](https://cs.stanford.edu/~kaichun/where2act/).
 - Additional acknowledgement to GitHub Copilot and GPT-4 for collaboratively writing a significant portion of the code in this codebase.
 
+# Process
+1. detect end effoctor/gripper location
+2. detect object and get it's location
+3. generate way point from end effector to object location
+4. optimize waypoint and execute the plan
+5. save executed plan to visulization
 
 
 
